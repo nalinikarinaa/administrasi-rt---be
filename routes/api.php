@@ -6,6 +6,7 @@ use App\Http\Controllers\PenghuniController;
 use App\Http\Controllers\PenghuniRumahController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\RumahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,11 @@ Route::get('/pengeluaran/total', [PengeluaranController::class, 'summary']);
 Route::post('tambah/pengeluaran', [PengeluaranController::class, 'store']);
 Route::get('/report/detail', [PengeluaranController::class, 'detail']);
 Route::get('/report/grafik', [PengeluaranController::class, 'grafik']);
+
+//RUMAH
+Route::get('/rumah', [RumahController::class, 'index']);
+Route::post('/rumah', [RumahController::class, 'store']);
+Route::get('/rumah/{id}', [RumahController::class, 'show']);
+Route::put('/rumah/{id}', [RumahController::class, 'update']);
+Route::delete('/rumah/{id}', [RumahController::class, 'destroy']);
 
