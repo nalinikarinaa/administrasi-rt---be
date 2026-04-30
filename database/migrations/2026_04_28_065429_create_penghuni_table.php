@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('penghuni', function (Blueprint $table) {
+     Schema::create('penghuni', function (Blueprint $table) {
         $table->id();
         $table->string('name');
-        $table->string('ktp_photo')->nullable();
-        $table->enum('status', ['tetap', 'kontrak']);
+        $table->string('ktp_photo')->unique();
+        $table->enum('status', ['kontrak', 'tetap']);
         $table->string('phone');
-        $table->boolean('status_pernikahan')->default(false);
+        $table->enum('status_pernikahan', ['menikah', 'belum']);
         $table->timestamps();
     });
     }

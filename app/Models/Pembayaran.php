@@ -22,6 +22,10 @@ class Pembayaran extends Model
         'paid_at'
     ];
 
+    protected $casts = [
+        'paid_at' => 'datetime',
+    ];
+
     public function rumah()
     {
         return $this->belongsTo(Rumah::class, 'rumah_id');

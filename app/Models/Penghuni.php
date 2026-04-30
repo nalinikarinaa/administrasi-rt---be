@@ -10,10 +10,10 @@ class Penghuni extends Model
     protected $table = 'penghuni';
 
     protected $fillable = [
-        'name',
-        'ktp_photo',
+        'nama',
+        'ktp',
         'status',
-        'phone',
+        'no_hp',
         'status_pernikahan'
     ];
 

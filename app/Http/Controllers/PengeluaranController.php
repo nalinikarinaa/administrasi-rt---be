@@ -8,22 +8,31 @@ use Illuminate\Http\Request;
 
 class PengeluaranController extends Controller
 {
-   public function summary()
+ public function summary(Request $request)
 {
+  $tahun = $request->tahun ?? date('Y');
+
+        $data = $this->getDataByYear($tahun);
+
+        return response()->json($data);
+
     $data = [];
 
     for ($i = 1; $i <= 12; $i++) {
         $pemasukan = Pembayaran::where('bulan', $i)
+            ->where('tahun', $tahun)
             ->sum('total');
 
         $pengeluaran = Pengeluaran::whereMonth('date', $i)
+            ->whereYear('date', $tahun)
             ->sum('jumlah');
 
         $data[] = [
             'bulan' => $i,
+            'tahun' => $tahun, // ⬅️ FIX
             'pemasukan' => $pemasukan,
             'pengeluaran' => $pengeluaran,
-            'saldo' => $pemasukan - $pengeluaran
+            'saldo' => $pemasukan - $pengeluaran,
         ];
     }
 
@@ -102,4 +111,30 @@ public function grafik()
 
     return response()->json($data);
 }
+
+private function getDataByYear($tahun)
+{
+    $data = [];
+
+    for ($i = 1; $i <= 12; $i++) {
+        $pemasukan = Pembayaran::where('bulan', $i)
+            ->where('tahun', $tahun)
+            ->sum('total');
+
+        $pengeluaran = Pengeluaran::whereMonth('date', $i)
+            ->whereYear('date', $tahun)
+            ->sum('jumlah');
+
+        $data[] = [
+            'bulan' => $i,
+            'tahun' => $tahun,
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran,
+            'saldo' => $pemasukan - $pengeluaran,
+        ];
+    }
+
+    return $data;
+}
+
 }
