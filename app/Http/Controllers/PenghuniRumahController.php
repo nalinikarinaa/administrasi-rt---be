@@ -15,7 +15,6 @@ class PenghuniRumahController extends Controller
         'penghuni_id' => 'required|exists:penghuni,id'
     ]);
 
-    // 🔥 tutup relasi lama (kalau ada)
     PenghuniRumah::where('penghuni_id', $request->penghuni_id)
         ->whereNull('end_date')
         ->update([

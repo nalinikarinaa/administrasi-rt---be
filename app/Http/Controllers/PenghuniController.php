@@ -27,7 +27,7 @@ public function index()
     return response()->json($data);
 }
 
- // POST create
+ // create
 public function store(Request $request)
 {
     $request->validate([
@@ -70,7 +70,7 @@ $rumah->updateStatus();
     ]);
 }
 
-    // GET by id
+    // get by id
     public function show($id)
     {
         $data = Penghuni::findOrFail($id);
@@ -78,7 +78,7 @@ $rumah->updateStatus();
         return response()->json($data);
     }
 
-    // PUT update
+    // update
  public function update(Request $request, $id)
 {
     $data = Penghuni::findOrFail($id);
@@ -92,14 +92,13 @@ $rumah->updateStatus();
         'rumah_id' => 'required|exists:rumah,id',
     ]);
 
-    // ===== update KTP =====
     $ktpPath = $data->ktp_photo;
 
     if ($request->hasFile('ktp_photo')) {
         $ktpPath = $request->file('ktp_photo')->store('ktp', 'public');
     }
 
-    // ===== update data penghuni =====
+    //update data penghuni
     $data->update([
         'name' => $request->name,
         'ktp_photo' => $ktpPath,
@@ -108,14 +107,13 @@ $rumah->updateStatus();
         'status_pernikahan' => (int) $request->status_pernikahan,
     ]);
 
-    // ===== ambil rumah aktif lama =====
+    // ambil rumah aktif lama
     $activeRumah = PenghuniRumah::where('penghuni_id', $data->id)
         ->whereNull('end_date')
         ->first();
 
     $oldRumahId = null;
 
-    // ===== tutup rumah lama =====
     if ($activeRumah) {
         $oldRumahId = $activeRumah->rumah_id;
 
@@ -123,14 +121,12 @@ $rumah->updateStatus();
             'end_date' => now()
         ]);
 
-        // 🔥 update status rumah lama
         $rumahLama = Rumah::find($oldRumahId);
         if ($rumahLama) {
             $rumahLama->updateStatus();
         }
     }
 
-    // ===== buat relasi rumah baru =====
     PenghuniRumah::create([
         'penghuni_id' => $data->id,
         'rumah_id' => $request->rumah_id,
@@ -138,7 +134,7 @@ $rumah->updateStatus();
         'end_date' => null,
     ]);
 
-    // 🔥 update status rumah baru
+
     $rumahBaru = Rumah::find($request->rumah_id);
     if ($rumahBaru) {
         $rumahBaru->updateStatus();
@@ -155,26 +151,25 @@ $rumah->updateStatus();
 {
     $penghuni = Penghuni::findOrFail($id);
 
-    // 1. ambil relasi aktif
+    // ambil relasi
     $activeRumah = \App\Models\PenghuniRumah::where('penghuni_id', $id)
         ->whereNull('end_date')
         ->first();
 
     if ($activeRumah) {
 
-        // 2. tutup kontrak
         $activeRumah->update([
             'end_date' => now()
         ]);
 
         $rumahId = $activeRumah->rumah_id;
 
-        // 3. cek apakah masih ada penghuni aktif di rumah itu
+        // cek apakah masih ada penghuni aktif di rumah itu
         $masihAda = \App\Models\PenghuniRumah::where('rumah_id', $rumahId)
             ->whereNull('end_date')
             ->exists();
 
-        // 4. kalau tidak ada → kosongkan rumah
+        // kalau tidak ada hmm kosongkan rumah
         if (!$masihAda) {
             $rumah = \App\Models\Rumah::find($rumahId);
             if ($rumah) {
@@ -184,7 +179,7 @@ $rumah->updateStatus();
         }
     }
 
-    // 5. hapus penghuni
+    // hapus penghuni
     $penghuni->delete();
 
     return response()->json([

@@ -62,9 +62,9 @@ public function store(Request $request)
     $uang_kebersihan = 15000;
     $total = $uang_security + $uang_kebersihan;
 
-    // =========================
-    // 🔥 PEMBAYARAN TAHUNAN
-    // =========================
+
+    // PEMBAYARAN TAHUNAN
+
     if ($request->jenis_pembayaran == 'tahunan') {
 
         for ($i = 0; $i < 12; $i++) {
@@ -72,7 +72,7 @@ public function store(Request $request)
             $bulan = $request->bulan + $i;
             $tahun = $request->tahun;
 
-            // handle kalau lewat Desember
+            // kalau lewat Desember
             if ($bulan > 12) {
                 $bulan -= 12;
                 $tahun += 1;
@@ -105,11 +105,11 @@ public function store(Request $request)
         ]);
     }
 
-    // =========================
-    // 🔹 PEMBAYARAN BULANAN
-    // =========================
 
-    // ❗ CEK DUPLIKAT
+    // PEMBAYARAN BULANAN
+
+
+    //  CEK DUPLIKAT
     $exists = Pembayaran::where('rumah_id', $request->rumah_id)
         ->where('bulan', $request->bulan)
         ->where('tahun', $request->tahun)

@@ -68,18 +68,18 @@ public function detail(Request $request)
         'tahun' => 'required|integer',
     ]);
 
-    // 🔹 ambil pemasukan
+    // ambil pemasukan
     $pemasukan = Pembayaran::with(['penghuni', 'rumah'])
         ->where('bulan', $request->bulan)
         ->where('tahun', $request->tahun)
         ->get();
 
-    // 🔹 ambil pengeluaran
+    // ambil pengeluaran
     $pengeluaran = Pengeluaran::whereMonth('date', $request->bulan)
         ->whereYear('date', $request->tahun)
         ->get();
 
-    // 🔹 total
+    // total
     $totalPemasukan = $pemasukan->sum('total');
     $totalPengeluaran = $pengeluaran->sum('jumlah');
 

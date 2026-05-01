@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class RumahController extends Controller
 {
-    // 🔥 GET semua rumah
+    //get semua rumah
     public function index()
     {
         // $data = Rumah::with('penghuniRelasi')->latest()->get();
@@ -16,7 +16,7 @@ class RumahController extends Controller
         return response()->json($data);
     }
 
-    // 🔥 POST tambah rumah
+    // tambah rumah
     public function store(Request $request)
     {
         $request->validate([
@@ -35,7 +35,7 @@ class RumahController extends Controller
         ]);
     }
 
-    // 🔥 GET detail rumah
+    // detail rumah
     public function show($id)
     {
         $data = Rumah::with(['penghuniRelasi', 'pembayaran'])->findOrFail($id);
@@ -43,7 +43,7 @@ class RumahController extends Controller
         return response()->json($data);
     }
 
-    // 🔥 UPDATE rumah
+    // update rumah
     public function update(Request $request, $id)
     {
         $rumah = Rumah::findOrFail($id);
@@ -59,7 +59,7 @@ class RumahController extends Controller
         ]);
     }
 
-    // 🔥 DELETE rumah
+    // hapus
     public function destroy($id)
     {
         $rumah = Rumah::findOrFail($id);
