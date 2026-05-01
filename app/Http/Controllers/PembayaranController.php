@@ -169,4 +169,12 @@ public function summary()
     return response()->json($data);
 }
 
+public function history()
+{
+    return Pembayaran::with(['penghuni', 'rumah'])
+        ->orderBy('tahun')
+        ->orderBy('bulan')
+        ->get();
+}
+
 }

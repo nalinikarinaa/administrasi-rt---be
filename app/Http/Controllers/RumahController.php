@@ -10,7 +10,8 @@ class RumahController extends Controller
     // 🔥 GET semua rumah
     public function index()
     {
-        $data = Rumah::with('penghuniRelasi')->latest()->get();
+        // $data = Rumah::with('penghuniRelasi')->latest()->get();
+       $data = Rumah::with('penghuniRelasi.penghuni')->latest()->get();
 
         return response()->json($data);
     }

@@ -9,13 +9,13 @@ class Penghuni extends Model
 {
     protected $table = 'penghuni';
 
-    protected $fillable = [
-        'nama',
-        'ktp',
-        'status',
-        'no_hp',
-        'status_pernikahan'
-    ];
+protected $fillable = [
+    'name',
+    'ktp_photo',
+    'status',
+    'phone',
+    'status_pernikahan'
+];
 
     public function rumahRelasi()
     {

@@ -23,4 +23,14 @@ class Rumah extends Model
     {
         return $this->hasMany(Pembayaran::class, 'rumah_id');
     }
+
+    public function updateStatus()
+{
+    $active = $this->penghuniRelasi()
+        ->whereNull('end_date')
+        ->exists();
+
+    $this->status = $active ? 'terisi' : 'kosong';
+    $this->save();
+}
 }

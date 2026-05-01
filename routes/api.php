@@ -29,12 +29,14 @@ Route::post('/penghuni/rumah', [PenghuniRumahController::class, 'penghuni']);
 Route::post('/tambah/penghuni', [PenghuniController::class, 'store']);
 Route::get('/penghuni{id}', [PenghuniController::class, 'show']);
 Route::put('/edit/penghuni/{id}', [PenghuniController::class, 'update']);
-Route::delete('/hapus{id}', [PenghuniController::class, 'destroy']);
+Route::delete('/hapus/penghuni{id}', [PenghuniController::class, 'destroy']);
 
 //PEMBAYARAN
 Route::post('/pembayaran', [PembayaranController::class, 'store']);
 Route::get('/pembayaran/detail', [PembayaranController::class, 'detail']);
 Route::get('/pengeluaran/total', [PembayaranController::class, 'summary']);
+Route::get('/penghuni/{id}/pembayaran', [PenghuniController::class, 'historyPembayaran']);
+Route::get('/pembayaran/history', [PembayaranController::class, 'history']);
 
 //PENGELUARAN
 Route::get('/pengeluaran/total', [PengeluaranController::class, 'summary']);
